@@ -99,26 +99,30 @@ void list::swap(uint32_t m, uint32_t n)
         throw "Error: node not found!\n";
 
 
-    // вначале отработать грaничный случай
+    // 
+    // частный случай
+    //
     if (n - m == 1) // соседние элементы
     {
-        m_node->next = n_node->next;
-        n_node->next = m_node;
+        m_node->next = n_node->next; // 1
+        n_node->next = m_node;       // 2
         // элемент перед m отсутствует, если m - вершина.
         if (m_prev)
-            m_prev->next = n_node;
+            m_prev->next = n_node;   // 3
     }
+    //
     // общий случай
+    //
     else 
     {
         tmp = m_node->next;
-        m_node->next = n_node->next;
-        n_node->next = tmp;
+        m_node->next = n_node->next; // 1
+        n_node->next = tmp;          // 2
 
-        n_prev->next = m_node;
+        n_prev->next = m_node;       // 3
         // элемент перед m отсутствует, если m - вершина.
         if (m_prev)
-            m_prev->next = n_node;
+            m_prev->next = n_node;   // 4
     }
 
     // переназначить вершину

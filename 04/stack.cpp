@@ -24,6 +24,7 @@ public:
 
 class stack
 {
+
 private:
     stackNode * root = nullptr;
     uint32_t size = 0;
@@ -34,12 +35,12 @@ public:
     int pop();
     void print();
     bool isEmpty() { return size == 0; }
+
 };
 
 
 void stack::push(int d)
 {
-    size++;
     auto node = new stackNode(d);
 
     if (root == nullptr) {
@@ -49,6 +50,8 @@ void stack::push(int d)
         node->next = root;
         root = node;
     }
+
+    size++;
 }
 
 
@@ -57,11 +60,12 @@ int stack::pop()
     if (root == nullptr)
         throw "Stack is empty!\n";
 
-    size--;
     int res = root->data;
     auto tmp = root->next;
     delete root;
     root = tmp;
+    
+    size--;
     return res;
 }
 

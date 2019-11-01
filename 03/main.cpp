@@ -17,7 +17,7 @@ int main()
 
     mylist.print();
 
-    mylist.swap(0, 1);
+    mylist.swap(4, 5);
 
     mylist.print();
 
