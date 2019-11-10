@@ -1,12 +1,13 @@
 #include <iostream>
-#include "parser.cpp"
+#include "./math_tree.cpp"
 using namespace std;
 
 
 int main ()
 {
-    saod::Parser parser;
+    saod::Tree tree;
 
-    parser.parse("(1+2)*7");
-    
+    tree.fill();
+
+    std::cout << tree.solve() << std::endl;
 }
