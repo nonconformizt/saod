@@ -23,7 +23,8 @@ int getMax(int a[], int n)
 // exp (where exp is 10^i).
 void sortDigits(int a[], int n, int exp)
 {  
-  int result[n], i, digit, count[10] = {0};
+  int i, digit, count[10] = {0};
+  int * result = new int[n];
 
   // Counting occurence of digits
   for (i = 0; i < n; i++)

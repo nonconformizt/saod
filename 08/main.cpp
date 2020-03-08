@@ -5,7 +5,7 @@
 #include "./timer.cpp"
 using namespace std;
 
-#define SIZE 1000000
+#define SIZE 90000000
 #define THRESHOLD 100000
 
 
