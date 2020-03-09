@@ -22,36 +22,36 @@ public:
 
 class Treap {
 
-    private: 
-        TreapNode * root;
+private: 
+    TreapNode * root;
 
-        std::mt19937 * rng;
-        std::uniform_int_distribution<std::mt19937::result_type> * rnd_distr;
+    std::mt19937 * rng;
+    std::uniform_int_distribution<std::mt19937::result_type> * rnd_distr;
 
-        TreapNode * _search (TreapNode * root, int key);
-        TreapNode * _insert (TreapNode * root, int key);
-        TreapNode * _remove (TreapNode * root, int key);
-        TreapNode * rightRotate (TreapNode * root);
-        TreapNode * leftRotate (TreapNode * root);
+    TreapNode * _search (TreapNode * root, int key);
+    TreapNode * _insert (TreapNode * root, int key);
+    TreapNode * _remove (TreapNode * root, int key);
+    TreapNode * rightRotate (TreapNode * root);
+    TreapNode * leftRotate (TreapNode * root);
+    void _inorder (TreapNode * root);
 
+public: 
+    Treap()
+    {
+        root = nullptr;
 
-    public: 
-        Treap()
-        {
-            root = nullptr;
+        // set up random
+        std::random_device dev;
+        rng = new std::mt19937(dev());
+        rnd_distr = new std::uniform_int_distribution<std::mt19937::result_type>(1, MAX_PRIORITY);
+    }
 
-            // set up random
-            std::random_device dev;
-            rng = new std::mt19937(dev());
-            rnd_distr = new std::uniform_int_distribution<std::mt19937::result_type>(1, MAX_PRIORITY);
-        }
+    ~Treap();
 
-        ~Treap();
-
-        TreapNode * insert (int key);
-        TreapNode * search (int key);
-        TreapNode * remove (int key);
-        
+    TreapNode * search (int key);
+    void insert (int key);
+    void remove (int key);
+    void inorder ();
 };
 
 
@@ -71,12 +71,9 @@ TreapNode * Treap::_search (TreapNode * root, int key)
         return _search(root->right, key);
 }
 
-TreapNode * Treap::insert (int key)
+void Treap::insert (int key)
 {
-    auto node = new TreapNode(key, (*rnd_distr)(*rng));
-
-    _insert(root, key);
-
+    root = _insert(root, key);
 }
 
 TreapNode * Treap::_insert (TreapNode * root, int key)
@@ -122,9 +119,9 @@ TreapNode * Treap::leftRotate (TreapNode * y)
     return x;
 }
 
-TreapNode * Treap::remove (int key)
+void Treap::remove (int key)
 {
-    return _remove (root, key);
+    root = _remove (root, key);
 }
 
 TreapNode * Treap::_remove (TreapNode * root, int key)
@@ -163,4 +160,18 @@ TreapNode * Treap::_remove (TreapNode * root, int key)
 
     return root;
 
+}
+
+void Treap::inorder ()
+{
+    _inorder(root);
+}
+
+void Treap::_inorder(TreapNode * root)
+{
+    if (root == nullptr)
+        return;
+    _inorder(root->left);
+    std::cout << root->key << "(" << root->priority << "); ";
+    _inorder(root->right);
 }
