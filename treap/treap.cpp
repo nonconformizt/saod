@@ -8,12 +8,14 @@ class TreapNode {
 public:
 
     int key, priority;
-    TreapNode *left, *right;
+    TreapNode *left, *right, *parent;
 
-    TreapNode(int key, int priority)
+    TreapNode(TreapNode * parent, int key, int priority)
     {
+        this->parent = parent;
         this->key = key;
         this->priority = priority;
+
         this->left = this->right = nullptr;
     }
 
@@ -29,7 +31,7 @@ private:
     std::uniform_int_distribution<std::mt19937::result_type> * rnd_distr;
 
     TreapNode * _search (TreapNode * root, int key);
-    TreapNode * _insert (TreapNode * root, int key);
+    TreapNode * _insert (TreapNode * root, TreapNode * parent, int key);
     TreapNode * _remove (TreapNode * root, int key);
     TreapNode * rightRotate (TreapNode * root);
     TreapNode * leftRotate (TreapNode * root);
@@ -41,9 +43,10 @@ public:
         root = nullptr;
 
         // set up random
-        std::random_device dev;
-        rng = new std::mt19937(dev());
-        rnd_distr = new std::uniform_int_distribution<std::mt19937::result_type>(1, MAX_PRIORITY);
+        using namespace std;
+        random_device dev;
+        rng = new mt19937(dev());
+        rnd_distr = new uniform_int_distribution<mt19937::result_type>(1, MAX_PRIORITY);
     }
 
     ~Treap();
@@ -73,22 +76,22 @@ TreapNode * Treap::_search (TreapNode * root, int key)
 
 void Treap::insert (int key)
 {
-    root = _insert(root, key);
+    root = _insert(root, nullptr, key);
 }
 
-TreapNode * Treap::_insert (TreapNode * root, int key)
+TreapNode * Treap::_insert (TreapNode * root, TreapNode * parent, int key)
 {
     if (root == nullptr)
-        return new TreapNode(key, (*rnd_distr)(*rng));
+        return new TreapNode(parent, key, (*rnd_distr)(*rng));
 
     if (key < root->key) {
-        root->left = _insert(root->left, key);
+        root->left = _insert(root->left, root, key);
 
         if (root->left->priority > root->priority)
             root = rightRotate(root);
     }
     else {
-        root->right = _insert(root->right, key);
+        root->right = _insert(root->right, root, key);
 
         if (root->right->priority > root->priority)
             root = leftRotate(root);
@@ -101,9 +104,14 @@ TreapNode * Treap::rightRotate (TreapNode * y)
 {
     TreapNode * x = y->left;
     TreapNode * T2 = x->right;
+    TreapNode * ancestor = y->parent;
 
     x->right = y;
+    x->parent = ancestor;
     y->left = T2;
+    y->parent = x;
+    if (T2 != nullptr)
+        T2->parent = y;
     
     return x;
 }
@@ -112,9 +120,14 @@ TreapNode * Treap::leftRotate (TreapNode * y)
 {
     TreapNode * x = y->right;
     TreapNode * T2 = x->left;
+    TreapNode * ancestor = y->parent;
 
     x->left = y;
+    x->parent = ancestor;
+    y->parent = x;  
     y->right = T2;
+    if (T2 != nullptr)
+        T2->parent = y;
     
     return x;
 }
