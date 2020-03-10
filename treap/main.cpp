@@ -16,7 +16,9 @@ int main()
     treap->insert(321);
     treap->insert(9);
 
-    treap->inorder();
+    auto finger = treap->search(3);
+
+    auto needle = treap->fingerSearch(6, finger);
 
     return 1;
 }

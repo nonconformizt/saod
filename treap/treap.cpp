@@ -52,6 +52,7 @@ public:
     ~Treap();
 
     TreapNode * search (int key);
+    TreapNode * fingerSearch (int key, TreapNode * finger);
     void insert (int key);
     void remove (int key);
     void inorder ();
@@ -187,4 +188,52 @@ void Treap::_inorder(TreapNode * root)
     _inorder(root->left);
     std::cout << root->key << "(" << root->priority << "); ";
     _inorder(root->right);
+}
+
+TreapNode * Treap::fingerSearch (int needle, TreapNode * finger)
+{
+    std::cout << "Starting finger search\n";
+    std::cout << "Finger = " << finger->key << "\n";
+
+    // start advancing to the root
+
+    TreapNode * v = finger->parent;
+    TreapNode * lastNode = nullptr;
+    TreapNode * LCA = nullptr;
+
+    while (true)
+    {
+        
+
+        if (v == nullptr) {// root reached
+            std::cout << "Root reached!\n";
+            LCA = root;
+            break;
+        }
+            
+        std::cout << "Node " << v->key << "\n";
+
+        // case 1
+        if (v->key <= finger->key) // x is in the right subtree
+                                   // and v cannot be desired ancestor
+            v = v->parent; // continue advancing
+        // case 2
+        else if (finger->key < v->key && v->key <= needle)
+        {
+            // finger is in the left subtree of v and desired node 
+            // is v or its ancestor
+            lastNode = v;
+            v = v->parent;
+        }
+        // case 3
+        else if (needle < v->key)
+        {
+            // LCA found!
+            LCA = lastNode;
+            break;
+        }
+    }
+
+    std::cout << "LCA found: " << LCA->key << "\n";
+
 }
