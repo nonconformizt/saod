@@ -201,39 +201,77 @@ TreapNode * Treap::fingerSearch (int needle, TreapNode * finger)
     TreapNode * lastNode = nullptr;
     TreapNode * LCA = nullptr;
 
-    while (true)
-    {
-        
+    if (needle > finger->key) {
 
-        if (v == nullptr) {// root reached
-            std::cout << "Root reached!\n";
-            LCA = root;
-            break;
-        }
-            
-        std::cout << "Node " << v->key << "\n";
+        while (true)
+        {
+            if (v == nullptr) {// root reached
+                std::cout << "Root reached!\n";
+                LCA = root; break;
+            }
+                
+            std::cout << "Node " << v->key << "\n";
 
-        // case 1
-        if (v->key <= finger->key) // x is in the right subtree
-                                   // and v cannot be desired ancestor
-            v = v->parent; // continue advancing
-        // case 2
-        else if (finger->key < v->key && v->key <= needle)
-        {
-            // finger is in the left subtree of v and desired node 
-            // is v or its ancestor
-            lastNode = v;
-            v = v->parent;
+            // case 1
+            if (finger->key >= v->key) // x is in the right subtree
+                                    // and v cannot be desired ancestor
+                v = v->parent; // continue advancing
+            // case 2
+            else if (finger->key < v->key && v->key <= needle)
+            {
+                // finger is in the left subtree of v and desired node 
+                // is v or its ancestor
+                lastNode = v;
+                v = v->parent;
+            }
+            // case 3
+            else if (needle < v->key)
+            {
+                // LCA found!
+                LCA = lastNode;
+                break;
+            }
         }
-        // case 3
-        else if (needle < v->key)
+
+    } else {
+
+        while (true)
         {
-            // LCA found!
-            LCA = lastNode;
-            break;
+            if (v == nullptr) { // root reached
+                std::cout << "Root reached!\n";
+                LCA = root; break;
+            }
+                
+            std::cout << "Node " << v->key << "\n";
+
+            // case 1
+            if (finger->key <= v->key) // x is in the right subtree
+                                       // and v cannot be desired ancestor
+                v = v->parent; // continue advancing
+            // case 2
+            else if (finger->key > v->key && v->key >= needle)
+            {
+                // finger is in the left subtree of v and desired node 
+                // is v or its ancestor
+                lastNode = v;
+                v = v->parent;
+            }
+            // case 3
+            else if (needle > v->key)
+            {
+                // LCA found!
+                LCA = lastNode;
+                break;
+            }
         }
+
     }
 
     std::cout << "LCA found: " << LCA->key << "\n";
+
+    // using common treap search 
+    // considering LCA as root
+
+    return _search (LCA, needle);
 
 }

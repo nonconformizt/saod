@@ -5,20 +5,14 @@ int main()
 {
     auto treap = new Treap();
 
-    treap->insert(1);
-    treap->insert(2);
-    treap->insert(3);
-    treap->insert(4);
-    treap->insert(5);
-    treap->insert(6);
-    treap->insert(7);
-    treap->insert(8888);
-    treap->insert(321);
-    treap->insert(9);
+    for (int i = 1; i < 1000; i++)
+        treap->insert(i);
 
-    auto finger = treap->search(3);
+    auto finger = treap->search(20);
 
-    auto needle = treap->fingerSearch(6, finger);
+    auto needle = treap->fingerSearch(15, finger);
+
+    std::cout << "Result: " <<  needle->key << "\n";
 
     return 1;
 }
