@@ -15,7 +15,7 @@ public:
 
 private:
     const int LEVELS = 3;
-    const float P = 0.5f;
+    const float P = 0.4f;
 
     Node * head;
 
@@ -40,17 +40,16 @@ public:
 };
 
 
+
 SkipList::SkipList()
 {
+    srand(time(0));
     head = new Node(0, LEVELS - 1);
 }
-
 
 SkipList::Node * SkipList::insert (int key)
 {
     // begin from top level
-
-    cout << "Inserting " << key << endl;
 
     int insertLevel = randomLevel();
     Node * node = new Node (key, insertLevel);
@@ -61,16 +60,11 @@ SkipList::Node * SkipList::insert (int key)
 
     for (int level = LEVELS - 1; level >= 0; level--)
     {
-        cout << "Inspecting level " << level << endl;
-
         // move right until bigger node is found OR END IS REACHED
         do {
             next = head->forward[level];
-            if (next == nullptr) {
-                cout << "Next key is null";
+            if (next == nullptr)
                 break; // prevent accessing null-node
-            }
-            std::cout << "Next key is " << next->key << endl;
             
             if (key >= next->key)
                 head = next; // continue searching
@@ -78,8 +72,6 @@ SkipList::Node * SkipList::insert (int key)
                 break; // move down
         }
         while (true);
-
-        std::cout << "===\n";
 
         // insertion point found
         if (level <= insertLevel) {
@@ -93,8 +85,6 @@ SkipList::Node * SkipList::insert (int key)
 
 }
 
-
-// create random level for node 
 int SkipList::randomLevel()
 { 
     float r = (float) rand() / RAND_MAX;
@@ -109,22 +99,31 @@ int SkipList::randomLevel()
     return lvl;
 };
 
-
 void SkipList::print()
 {
-    std::cout<<"\n*****Skip List*****"<<"\n"; 
-    for (int i = 0; i <= LEVELS - 1; i++) 
-    { 
-        Node * node = head->forward[i]; 
-        std::cout << "Level " << i << ": "; 
+    std::cout<<"\n*****Skip List*****"<<"\n";
 
-        while (node != NULL) 
+    for (int i = 0; i <= LEVELS - 1; i++)
+    {
+        Node * node = head->forward[i];
+        std::cout << "Level " << i << ": ";
+
+        while (node != NULL)
         { 
-            std::cout << node->key << " "; 
-            node = node->forward[i]; 
+            std::cout << node->key << " ";
+            node = node->forward[i];
         } 
-        std::cout << std::endl; 
-    } 
+        std::cout << std::endl;
+    }
+
+    std::cout<<"\n***Header pointers***"<<"\n";
+    for (int i = 0; i <= LEVELS - 1; i++) 
+    {
+        if (head->forward[i] == nullptr)
+            cout << "null\n";
+        else
+            cout << head->forward[i]->key << endl;
+    }
 }
 
 
