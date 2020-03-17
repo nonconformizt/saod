@@ -10,6 +10,7 @@ public:
 
     SkipList();
     SkipList::Node * insert (int key);
+    SkipList::Node * search (int key);
     void print();
 
 
@@ -27,7 +28,7 @@ private:
 class SkipList::Node {
 public:
     int key;
-    Node **forward; // array 
+    Node **forward;
     
     Node (int key, int level)
     {
@@ -49,14 +50,13 @@ SkipList::SkipList()
 
 SkipList::Node * SkipList::insert (int key)
 {
-    // begin from top level
-
     int insertLevel = randomLevel();
     Node * node = new Node (key, insertLevel);
     Node * head = this->head;
     Node * next = nullptr;
     Node * tmp = nullptr;
 
+    // begin from top level
 
     for (int level = LEVELS - 1; level >= 0; level--)
     {
@@ -80,6 +80,34 @@ SkipList::Node * SkipList::insert (int key)
             head->forward[level] = node;
             node->forward[level] = tmp;
         }
+        // go down
+    }
+
+    return node;
+}
+
+
+SkipList::Node * SkipList::search (int key)
+{
+    Node * head = this->head;
+    Node * next = nullptr;
+
+    for (int level = LEVELS - 1; level >= 0; level--)
+    {
+        do {
+            next = head->forward[level];
+
+            if (next == nullptr) // end reached
+                break; // move down
+            if (key == next->key)
+                return next;
+            if (key < next->key)
+                break; // move down
+
+            head = next; // continue searching
+        }
+        while (true);
+
         // go down
     }
 
@@ -116,14 +144,14 @@ void SkipList::print()
         std::cout << std::endl;
     }
 
-    std::cout<<"\n***Header pointers***"<<"\n";
+    /* std::cout<<"\n***Header pointers***"<<"\n";
     for (int i = 0; i <= LEVELS - 1; i++) 
     {
         if (head->forward[i] == nullptr)
             cout << "null\n";
         else
             cout << head->forward[i]->key << endl;
-    }
+    } */
 }
 
 

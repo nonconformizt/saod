@@ -10,14 +10,6 @@ int main()
     list->insert(6);
     list->insert(17);
     list->insert(9);
-    list->insert(25);
-    list->insert(7);
-    list->insert(19);
-    list->insert(-19);
-    list->insert(1);
-    list->insert(-12);
-    list->insert(100);
-    list->insert(21);
     list->insert(22);
     list->insert(231);
     list->insert(24);
@@ -26,6 +18,10 @@ int main()
     list->insert(12);
 
     list->print();
+
+    auto x = list->search(237);
+
+    cout << "Found element: " << x->key << endl;
 
     return 0;
 }
