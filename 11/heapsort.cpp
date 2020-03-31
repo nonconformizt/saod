@@ -13,13 +13,11 @@ struct Node {
 };
 
 
-// To heapify a subtree rooted with node i which is 
-// an index in arr[]. n is size of heap 
 void heapify(Node* arr[], int n, int i) 
 { 
 	int largest = i; // Initialize largest as root 
-	int l = 2*i + 1; // left = 2*i + 1
-	int r = 2*i + 2; // right = 2*i + 2
+	int l = 2*i + 1; // left
+	int r = 2*i + 2; // right
 
 	// If left child is larger than root 
 	if (l < n && arr[l]->key > arr[largest]->key) 
