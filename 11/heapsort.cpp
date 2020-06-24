@@ -1,8 +1,3 @@
-/**
- * Based on GeeksForGeeks article
- * https://www.geeksforgeeks.org/heap-sort/
- */
-
 #include <iostream>
 using namespace std; 
 

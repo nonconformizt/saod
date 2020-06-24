@@ -5,7 +5,9 @@
 using namespace std;
 #define N 50
 
-
+/**
+ * Читает массив из файла
+ */
 Node ** read()
 {
 	ifstream input("data.txt");
@@ -27,6 +29,22 @@ Node ** read()
 	return arr;
 }
 
+/**
+ * Записывает массив в файл
+ */
+void write(Node ** arr, int n)
+{
+	ofstream output("result.txt");
+
+	output << n << endl;
+
+	for (int i = 0; i < n; i++)
+		output << arr[i]->key << " " << arr[i]->data << "\n";
+
+	cout << "> Data written into result.txt\n";
+}
+
+
 int main() 
 { 
 	Node ** arr = read();
@@ -36,5 +54,5 @@ int main()
 	for (int i = 0; i < N; i++)
 		cout << arr[i]->key << " " << arr[i]->data << endl;
 
-
+	write(arr, N);
 } 
