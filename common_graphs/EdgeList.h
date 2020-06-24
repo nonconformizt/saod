@@ -2,6 +2,7 @@
 #define COMMON_GRAPHS_EDGELIST_H
 #include "classes.h"
 #include "AdjMatrix.h"
+#include "AdjStruct.h"
 #include "IncMatrix.h"
 
 
@@ -11,6 +12,7 @@ public:
 
     EdgeList() = default;
     explicit EdgeList(AdjMatrix * base);
+    explicit EdgeList(AdjStruct * base);
     explicit EdgeList(IncMatrix * base);
 
     void print() override;

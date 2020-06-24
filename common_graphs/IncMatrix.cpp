@@ -47,6 +47,27 @@ IncMatrix::IncMatrix(EdgeList *base)
 
 }
 
+IncMatrix::IncMatrix(AdjStruct *base)
+{
+    matrix = new int* [N];
+    E = 0;
+    // count number of edges
+    for (std::list<Node*> & l : base->adj)
+        E += l.size();
+
+    for (int i = 0; i < N; i++)
+        matrix[i] = new int[E];
+
+    int currEdge = 0;
+    for (int i = 0; i < N; i++) {
+        for (Node *node : base->adj[i]) {
+            matrix[i][currEdge] = -1;
+            matrix[node->i][currEdge] = 1;
+            currEdge++;
+        }
+    }
+}
+
 
 void IncMatrix::print()
 {

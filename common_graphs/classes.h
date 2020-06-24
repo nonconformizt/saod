@@ -39,10 +39,5 @@ class AdjStruct;
 
 
 
-class AdjStruct : public Graph {
-
-};
-
-
 
 #endif //COMMON_GRAPHS_CLASSES_H

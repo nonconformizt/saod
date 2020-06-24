@@ -30,6 +30,19 @@ EdgeList::EdgeList(IncMatrix *base)
         if (beg && end)
             edges[beg->i].emplace_back(Edge(beg, end));
     }
+}
+
+EdgeList::EdgeList(AdjStruct *base)
+{
+    Node * nodes[N];
+    for (int i = 0; i < N; i++)
+        nodes[i] = new Node(i);
+
+    for (int i = 0; i < N; i++) {
+        for(Node * n: base->adj[i]) {
+            edges[i].emplace_back(Edge(nodes[i], n));
+        }
+    }
 
 }
 

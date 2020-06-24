@@ -1,11 +1,34 @@
 #include "AdjMatrix.h"
 
 
-AdjMatrix::AdjMatrix(EdgeList *edgeList)
+AdjMatrix::AdjMatrix(EdgeList *base)
 {
-    for (std::list<Edge> & list: edgeList->edges)
+    for (std::list<Edge> & list: base->edges)
         for (Edge & e: list)
             matrix[ e.from->i ][ e.to->i ] = true;
+}
+
+AdjMatrix::AdjMatrix(IncMatrix *base)
+{
+    int beg, end;
+    for (int j = 0; j < base->E; j++) {
+        for (int i = 0; i < N; i++) {
+            // найти начало и конец грани
+            if (base->matrix[i][j] == -1)
+                beg = i;
+            else if (base->matrix[i][j] == 1)
+                end = i;
+        }
+
+        matrix[beg][end] = true;
+    }
+}
+
+AdjMatrix::AdjMatrix(AdjStruct *base)
+{
+    for (int i = 0; i < N; i++)
+        for (Node *node : base->adj[i])
+            matrix[i][node->i] = true;
 }
 
 void AdjMatrix::print()

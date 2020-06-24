@@ -2,6 +2,7 @@
 #include "classes.h"
 #include "EdgeList.h"
 #include "AdjMatrix.h"
+#include "AdjStruct.h"
 #include "IncMatrix.h"
 
 
@@ -25,16 +26,25 @@ int main() {
 
     edgeList->print();
 
-    /*
-    auto adjMatrix = new AdjMatrix(edgeList);
-    adjMatrix->print();
+    // тестируем создание различных типов графов на основе других
 
+    // Матрица инцидентности на основе Списка граней
     auto incMatrix = new IncMatrix(edgeList);
     incMatrix->print();
 
-    auto edgeL2 = new EdgeList(incMatrix);
-    edgeL2->print();
-    */
+    // Структура смежности на основе Матрицы инцидентности
+    auto adjStruct = new AdjStruct(incMatrix);
+    adjStruct->print();
+
+    // Матрица смежности на основе Структуры смежности
+    auto adjMatrix = new AdjMatrix(adjStruct);
+    adjMatrix->print();
+
+    // Список граней на основе Матрицы смежности
+    auto edgeList2 = new EdgeList(adjStruct);
+    edgeList2->print();
+
+    // и т.д.
 
     return 0;
 }
